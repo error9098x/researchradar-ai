@@ -56,6 +56,4 @@
    If you have any questions or feedback, please reach out to us at email@example.com.
    
 
-=======
-#Research Radar AI
->>>>>>> 6f3b8b7e44079e2ec513a903e1ac9cdf1537b133
+
