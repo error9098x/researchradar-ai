@@ -1,50 +1,72 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
 from streamlit.logger import get_logger
+from streamlit_navigation_bar import st_navbar
+import pages as pg
+
 
 LOGGER = get_logger(__name__)
+st.set_page_config(
+      page_title="Research Radar AI",
+      page_icon=":satellite:",
+      initial_sidebar_state="collapsed"
+  )
 
+styles = {
+	"nav": {
+		"background-color": "#ffb900",
+	},
+	"active": {
+		"background-color": "#efaa05",
+		"color": "var(--text-color)",
+		"font-weight": "normal",
+		"padding": "14px",
+	}
+}
 
 def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+   
+    page = st_navbar(["Home", "Research"],styles=styles)
+    functions = {
+      "Research": pg.show_research
+    }
+    go_to = functions.get(page)
+    if go_to:
+      go_to()
+    else:
+      st.write("# Welcome ! 👋")
+      st.image("static/logo/Research_Radar.png")
+      st.markdown(
+        f"""
+        <style>
+        img {{
+            border-radius: 15px;
+            box-shadow: 0 0 10px #000000;
+            height: auto;
+            width: 50%;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+        )
+      st.write("Research Radar AI ")
+      markdown_text = """
+      # Research Radar AI :satellite:
+      Welcome to **Research Radar AI**, an innovative application designed by Aviral 👨‍💻 - [Check out my GitHub](https://github.com/error9098x)
 
-    st.write("# Welcome to Streamlit! 👋")
+      Are you on a quest for the latest research papers? :mag_right: Look no further, because **Research Radar AI** is here to assist you! 
 
-    st.sidebar.success("Select a demo above.")
+      Explore the freshest scholarly articles from [arXiv.org](https://arxiv.org), an authoritative source for scientific papers. Our app doesn't just find cutting-edge research; it also bridges the conversation with the very papers that pique your interest. :speech_balloon:
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+      Leveraging the power of the **Gemini Pro model**, you can interact with the research papers at a level of detail that feels like chatting with the authors themselves! Adjust the slider to tweak the Gemini Pro's response 'temperature' for more or less creativity in the responses. :thermometer:
+
+      But wait, there's more! :sparkles:
+
+      Want to keep a collection of these intriguing papers? We understand the importance of saving them for later review. With our seamless email feature, you can have all the selected research summaries delivered directly to your inbox. :inbox_tray:
+
+      Get started on your scholarly exploration with **Research Radar AI** today! :rocket:
+      """
+
+      st.markdown(markdown_text)
 
 
 if __name__ == "__main__":
