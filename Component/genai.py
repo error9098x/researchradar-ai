@@ -13,7 +13,7 @@ import google.generativeai as genai
 
 genai.configure(api_key=GENAI_API_KEY)
 
-def get_conversational_chain():
+def get_conversational_chain(temp):
     prompt_template = """
     Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
     provided context just say, "answer is not available in the context", don't provide the wrong answer\n\n
@@ -23,7 +23,7 @@ def get_conversational_chain():
     Answer:
     """
 
-    model=ChatGoogleGenerativeAI(model="gemini-pro",temperature=0.5)
+    model=ChatGoogleGenerativeAI(model="gemini-pro",temperature=temp)
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     chain = load_qa_chain(model, chain_type="stuff",prompt=prompt) 
     return chain
@@ -53,13 +53,13 @@ def get_pdf_content_and_parse(website_url):
     text_chunks = get_text_chunks(text)  # Assuming `get_text_chunks` is a function that you've defined
     get_vector_store(text_chunks)
 
-def user_input(user_question):
+def user_input(user_question,temp):
     embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
     
     new_db = FAISS.load_local("faiss_index", embeddings)
     docs = new_db.similarity_search(user_question)
 
-    chain = get_conversational_chain()
+    chain = get_conversational_chain(temp)
 
     
     response = chain(

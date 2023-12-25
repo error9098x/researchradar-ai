@@ -20,7 +20,8 @@ def show_research():
 		list(categories.keys()),
 		format_func=lambda x: categories[x]
 	)
-
+	#make a createive temparture slider
+	temp = st.slider("LLM Creativity Slider 🎨", 0.0, 1.0, 0.5, 0.1)
 	if st.button('Fetch Papers'):
 		with st.spinner('Fetching papers...'):
 			xml_result = fetch_arxiv_papers(category)
@@ -43,7 +44,7 @@ def show_research():
 						with st.spinner(f'Parsing Research Paper... Retriving from https://arxiv.org/pdf/{arxiv_id}.pdf'):
 							#time.sleep(3)
 							get_pdf_content_and_parse(f"https://arxiv.org/pdf/{arxiv_id}.pdf")
-							user_input(user_question)
+							user_input(user_question,temp)
 
 	if 'papers' in st.session_state:
 		#leave space
